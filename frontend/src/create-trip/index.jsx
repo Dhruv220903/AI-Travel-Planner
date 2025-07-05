@@ -89,7 +89,7 @@ const onGenerateTrip = async () => {
       
 
        try {
-    const res = await fetch('http://localhost:5000/api/generate-trip', {
+    const res = await fetch('https://ai-travel-planner-7yhg.onrender.com/api/generate-trip', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

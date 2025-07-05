@@ -10,5 +10,9 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.10"
-  }
+  },
+  "scripts": {
+  "start": "node server.js"
+}
+
 }
