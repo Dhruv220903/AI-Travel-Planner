@@ -12,14 +12,17 @@ function ViewTrip() {
 
   useEffect(() => {
     tripId && getTripData();
+    console.log("tripid",tripId)
   }, [tripId]);
 
   const getTripData = async () => {
     try {
       const docs = doc(db, "AiTrips", tripId);
       const singleDoc = await getDoc(docs);
+
       if (singleDoc.exists()) {
         setTrip(singleDoc.data());
+    
       } else {
         toast.error("No trip found");
       }

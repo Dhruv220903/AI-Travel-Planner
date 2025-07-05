@@ -2,7 +2,7 @@ import React from 'react';
 import { FaMapMarkerAlt, FaClock, FaWallet, FaUsers } from 'react-icons/fa';
 
 function InfoSection({ trip }) {
-  console.log(trip);
+
 
   return (
     <div className="space-y-6">
