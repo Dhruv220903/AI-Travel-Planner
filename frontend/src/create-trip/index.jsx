@@ -1,30 +1,26 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect  } from "react";
 import useTripStore from "../store/useTripStore";
 import CitySelector from "../components/custom/DestinationSelector";
 import { Input } from "@/components/ui/input";
-import {
-  AI_PROMPT,
-  BudgetOptionsList,
-  SelectTravelsList,
-} from "../constants/options";
+import {AI_PROMPT,BudgetOptionsList,SelectTravelsList,} from "../constants/options";
 import { Button } from "../components/ui/button";
 import { toast } from "sonner";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  
-} from "@/components/ui/dialog"
+import {Dialog,DialogContent,DialogDescription,DialogHeader,DialogTitle,} from "@/components/ui/dialog"
 import { FcGoogle } from "react-icons/fc";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
+import { doc, setDoc } from "firebase/firestore";  
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { db } from "../service/firebaseConfig";
+import { useNavigate} from "react-router-dom";
+
+
 function CreateTrip() {
   const selectedCity = useTripStore((state) => state.selectedCity);
   const [formData, setFormData] = useState({});
   const [openDialog, setOpenDialog]=useState(false);
-
+  const [loading, setLoading]=useState(false);
+  const navigate=useNavigate();
   useEffect(() => {
     if (selectedCity) {
       setFormData((prev) => ({ ...prev, destination: selectedCity }));
@@ -65,7 +61,7 @@ function CreateTrip() {
       console.error('Error fetching user profile:', err);
     });
 };
-  const onGenerateTrip = async () => {
+const onGenerateTrip = async () => {
 
     const user=localStorage.getItem('user')
     if(!user){
@@ -83,13 +79,14 @@ function CreateTrip() {
       toast("Please fill all details correctly");
       return;
     }
+    setLoading(true);
     const FINAL_PROMPT = AI_PROMPT.replace("{location}", formData?.destination)
       .replace("{totalDays}", formData?.noOfDays)
       .replace("{traveler}", formData?.travelWith)
       .replace("{budget}", formData?.budget)
       .replace("{totalDays}", formData?.noOfDays);
 
-      console.log("final Prompt", FINAL_PROMPT);
+      
 
        try {
     const res = await fetch('http://localhost:5000/api/generate-trip', {
@@ -101,12 +98,30 @@ function CreateTrip() {
     });
 
     const data = await res.json();
-    console.log("Gemini Response:", data.response);
+    setLoading(false);
+    console.log( data.response);
+    SaveAiTrip(data.response);
   } catch (error) {
     toast.error("Error:", error);
   }
   };
 
+  const SaveAiTrip=async(TripData)=>{
+    setLoading(true);
+ 
+    const user=JSON.parse(localStorage.getItem('user'))
+    const docId=Date.now().toString();
+    await setDoc(doc(db, "AiTrips", docId), {
+  userSelection: formData,
+  tripData: TripData,
+  userEmail: user.email,
+  id:docId,
+
+});
+
+setLoading(false);
+navigate(`/view-trip/${docId}`);
+  }
   return (
     <div className="max-w-5xl mx-auto px-6 py-12 space-y-10">
       ,{/* Header */}
@@ -192,11 +207,13 @@ function CreateTrip() {
         {/* Submit */}
         <div className="flex justify-end">
           <Button
+          disabled={loading}
             size="lg"
             className="text-white bg-blue-600 hover:bg-blue-700"
-            onClick={onGenerateTrip}
-          >
-            🧠 Generate My Trip
+            onClick={onGenerateTrip}>
+            {loading ? <> <AiOutlineLoading3Quarters className="h-7 w-7 animate-spin" /> Generating Trip...</>: "🧠 Generate My Trip"}
+          
+           
           </Button>
         </div>
       </div>

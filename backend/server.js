@@ -15,6 +15,7 @@ app.post('/api/generate-trip', async (req, res) => {
   const { prompt } = req.body;
   try {
     const response = await generateTrip(prompt);
+    
     res.json({ response });
   } catch (err) {
     console.error("Gemini error:", err);
