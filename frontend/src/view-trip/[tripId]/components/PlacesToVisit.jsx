@@ -2,7 +2,8 @@ import React from 'react';
 import { FaStar } from 'react-icons/fa';
 
 function PlacesToVisit({ trip }) {
-  console.log("placestovist",trip)
+  console.log("placestovisit", trip);
+
   const itinerary = trip?.tripData?.itinerary || [];
 
   if (itinerary.length === 0) {
@@ -15,11 +16,11 @@ function PlacesToVisit({ trip }) {
 
       {itinerary.map((day, index) => (
         <div key={index} className="mb-10 bg-white shadow-md rounded-xl p-6">
-          <h3 className="text-xl font-bold text-orange-600 mb-2">Day {day.day}</h3>
-        
+          <h3 className="text-xl font-bold text-orange-600 mb-1">Day {day.day}</h3>
+          {day.theme && <p className="text-sm text-gray-600 mb-4 italic">Theme: {day.theme}</p>}
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {day.plan.map((activity, idx) => {
+            {day.places.map((activity, idx) => {
               const imageUrl = activity.placeImageUrl || `https://source.unsplash.com/400x300/?tourism,place,${index}-${idx}`;
               return (
                 <div key={idx} className="bg-gray-50 rounded-lg shadow-sm overflow-hidden">
