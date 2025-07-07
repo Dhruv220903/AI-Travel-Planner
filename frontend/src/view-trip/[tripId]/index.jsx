@@ -12,7 +12,7 @@ function ViewTrip() {
 
   useEffect(() => {
     tripId && getTripData();
-    console.log("tripid",tripId)
+    console.log("tripid",trip)
   }, [tripId]);
 
   const getTripData = async () => {

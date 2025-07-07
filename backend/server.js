@@ -8,7 +8,12 @@ dotenv.config();
 const app = express();
 const PORT = 5000;
 
-app.use(cors());
+app.use(cors({
+  origin: 'https://ai-travel-planner-dhruv.vercel.app',
+  methods: ['GET', 'POST'],
+  credentials: true // only if you're using cookies or auth headers
+}));
+
 app.use(express.json());
 
 app.post('/api/generate-trip', async (req, res) => {
@@ -24,5 +29,5 @@ app.post('/api/generate-trip', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`✅ Server running at http://localhost:${PORT}`);
+  console.log(`✅ Server running at https://ai-travel-planner-7yhg.onrender.com${PORT}`);
 });
