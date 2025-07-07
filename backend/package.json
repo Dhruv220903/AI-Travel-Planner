@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "dependencies": {
     "@google/genai": "^1.8.0",
     "body-parse": "^0.1.0",

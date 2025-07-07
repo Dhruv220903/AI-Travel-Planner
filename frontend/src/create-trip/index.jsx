@@ -89,7 +89,7 @@ const onGenerateTrip = async () => {
       
 
        try {
-    const res = await fetch('https://ai-travel-planner-7yhg.onrender.com/api/generate-trip', {
+    const res = await fetch('http://localhost:5000/api/generate-trip', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -99,7 +99,7 @@ const onGenerateTrip = async () => {
 
     const data = await res.json();
     setLoading(false);
-    console.log( data.response);
+  
     SaveAiTrip(data.response);
   } catch (error) {
     toast.error("Error:", error);

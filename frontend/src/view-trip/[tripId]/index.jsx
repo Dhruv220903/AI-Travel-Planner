@@ -12,7 +12,7 @@ function ViewTrip() {
 
   useEffect(() => {
     tripId && getTripData();
-    console.log("tripid",trip)
+   
   }, [tripId]);
 
   const getTripData = async () => {
@@ -22,6 +22,7 @@ function ViewTrip() {
 
       if (singleDoc.exists()) {
         setTrip(singleDoc.data());
+         console.log("tripid",singleDoc.data())
     
       } else {
         toast.error("No trip found");

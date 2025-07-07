@@ -60,4 +60,34 @@ export const BudgetOptionsList = [
   }
 ];
 
-export const AI_PROMPT="Generate Travel Plan for Location: {location}, for {totalDays} for {traveler} with a {budget} budget, Give me a Hotels options list with HotelName, Hotel address, Price, hotel image url, geo coordinates, rating, descriptions and suggest itinerary with placeName, Place Details, Place Image Url, Geo Coordinates, ticket Pricing, rating, Time travel each of the location for {totalDays} days with each day plan with best time to visit in JSON format. Respond only with valid JSON. Do not include markdown."
+export const AI_PROMPT = `
+Generate a travel plan for the location: {location}, for {totalDays} days for {traveler} with a {budget} budget.
+
+1. Provide a hotels list with each hotel having:
+- hotelName
+- hotelAddress
+- price
+- hotelImageUrl
+- geoCoordinates
+- rating
+- description
+
+2. Suggest an itinerary for {totalDays} days.
+For each day, list places with:
+- placeName
+- placeDetails
+- placeImageUrl
+- geoCoordinates
+- ticketPricing
+- rating
+- timeTravel
+- bestTimeToVisit
+
+Format your entire response in **valid JSON only**. Do not include markdown or text outside the JSON.
+
+🚨 Important Instructions:
+- Use **camelCase** for all keys (e.g., hotelName, placeImageUrl)
+- **Do not** use snake_case or PascalCase
+- All keys must start with a **lowercase** letter
+- Respond with JSON only
+`;

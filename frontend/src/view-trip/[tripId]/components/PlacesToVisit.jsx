@@ -2,6 +2,7 @@ import React from 'react';
 import { FaStar } from 'react-icons/fa';
 
 function PlacesToVisit({ trip }) {
+  console.log("placestovist",trip)
   const itinerary = trip?.tripData?.Itinerary || [];
 
   if (itinerary.length === 0) {

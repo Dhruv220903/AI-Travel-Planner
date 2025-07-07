@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export async function generateTrip(FINAL_PROMPT) {
+  console.log("Generating trip with prompt:", FINAL_PROMPT);
   const ai = new GoogleGenAI({
     apiKey: process.env.GEMINI_API_KEY,
   });
@@ -12,7 +13,7 @@ export async function generateTrip(FINAL_PROMPT) {
     thinkingConfig: {
       thinkingBudget: -1,
     },
-    responseMimeType: 'text/plain',
+    responseMimeType: 'application/json',
   };
 
   const contents = [
